@@ -1,0 +1,15 @@
+cmake_minimum_required(VERSION 3.15)
+project(berlekamp)
+
+set(CMAKE_CXX_STANDARD 14)
+
+include_directories(algo polynom berlekamp mpir ${CMAKE_SOURCE_DIR} jacobi_pd/include)
+add_library(berlekampLib berlekamp/Polynomial.cpp berlekamp/Berlekamp.cpp berlekamp/Matrix.cpp)
+add_subdirectory(googletest)
+enable_testing()
+include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
+add_executable(berlekamp_unttests tests/berlekamp_test.cpp)
+target_link_libraries(berlekamp_unttests gtest gtest_main berlekampLib)
+add_test(berlekamp_unttests berlekamp_unttests)
+add_executable(main main.cpp)
+target_link_libraries(main berlekampLib)
